@@ -16,7 +16,8 @@ def GetLines (filePath):
   return threePlus
 
 def GetAllowed ():
-  words      = [line.lower().strip() for line in open("dict.txt") if len(line) > 3]
+  dictPath   = os.path.join(os.path.dirname(__file__), "dict.txt")
+  words      = [line.lower().strip() for line in open(dictPath) if len(line) > 3]
   substrings = set()
   for str in words:
     substring = ""
