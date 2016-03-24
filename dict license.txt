@@ -1,10 +1,10 @@
 Custom wordlist generated from http://app.aspell.net/create using SCOWL
 with parameters:
-  diacritic: both
-  max_size: 60
-  max_variant: 2
+  diacritic: strip
+  max_size: 35
+  max_variant: 1
   special: hacker
-  spelling: US
+  spelling: US GBs GBz CA
 
 Using Git Commit From: Tue Jan 19 17:08:56 2016 -0500 [2be3a0c]
 
