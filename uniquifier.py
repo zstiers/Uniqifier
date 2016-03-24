@@ -1,14 +1,18 @@
 import sys
 import os.path
+import threading
 
 usage = '''\
 Usage:
   python uniqifier.py InFileA InFileB OutOnlyFileA OutOnlyFileB
 '''
 
+def Letters (str):
+  return sum(1 for c in str if c.isalpha())
+
 def GetLines (filePath):
   entireFile = [line for line in open(filePath)]
-  threePlus  = [word for word in entireFile if len(word) > 3]
+  threePlus  = [word for word in entireFile if Letters(word) > 5]
   return threePlus
 
 def GetAllowed ():
@@ -37,6 +41,9 @@ def ValidateArgs (argv):
     return False
   return True
   
+def FillDiff (filePath, lines, only, allowed):
+  open(filePath, 'w').writelines(line for line in lines if line in only and ContainsAllowed(line, allowed))
+  
 def main(argv):
   if not ValidateArgs(argv):
     print(usage)
@@ -51,9 +58,12 @@ def main(argv):
   onlyA  = setA - setB
   onlyB  = setB - setA
   
-  open(argv[2], 'w').writelines(line for line in linesA if line in onlyA and ContainsAllowed(line, allowed))
-  open(argv[3], 'w').writelines(line for line in linesB if line in onlyB and ContainsAllowed(line, allowed))
-  
+  thrA = threading.Thread(target = FillDiff, args = (argv[2], linesA, onlyA, allowed))
+  thrB = threading.Thread(target = FillDiff, args = (argv[3], linesB, onlyB, allowed))
+  thrA.start()
+  thrB.start()
+  thrA.join()
+  thrB.join()  
   
 if __name__ == "__main__":
   main(sys.argv[1:])
