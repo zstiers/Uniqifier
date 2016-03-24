@@ -1,6 +1,6 @@
 import sys
 import os.path
-import threading
+from multiprocessing import Process
 
 usage = '''\
 Usage:
@@ -58,12 +58,12 @@ def main(argv):
   onlyA  = setA - setB
   onlyB  = setB - setA
   
-  thrA = threading.Thread(target = FillDiff, args = (argv[2], linesA, onlyA, allowed))
-  thrB = threading.Thread(target = FillDiff, args = (argv[3], linesB, onlyB, allowed))
-  thrA.start()
-  thrB.start()
-  thrA.join()
-  thrB.join()  
+  processA = Process(target = FillDiff, args = (argv[2], linesA, onlyA, allowed))
+  processB = Process(target = FillDiff, args = (argv[3], linesB, onlyB, allowed))
+  processA.start()
+  processB.start()
+  processA.join()
+  processB.join()  
   
 if __name__ == "__main__":
   main(sys.argv[1:])
