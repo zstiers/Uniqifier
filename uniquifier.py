@@ -12,7 +12,7 @@ def Letters (str):
 
 def GetLines (filePath):
   entireFile = [line for line in open(filePath)]
-  threePlus  = [word for word in entireFile if Letters(word) > 5]
+  threePlus  = [word for word in entireFile if Letters(word) >= 3]
   return threePlus
 
 def GetAllowed ():
